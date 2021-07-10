@@ -169,3 +169,24 @@ def index(request):
     else:
         form = ImageUploadForm()
     return render(request, 'index.html', {"images":images[::-1], "form": form, "users": users, "comments": comments })
+
+@login_required
+def home(request):
+    photos = Image.objects.all()
+    profile = Profile.objects.all()
+    form = ImageForm()
+    users = User.objects.all()
+    if request.method == 'POST':
+        form = ImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+
+    context = {
+        'photos': photos,
+        'form':form,
+        'profile':profile,
+        'users':users
+    }
+    return render(request, 'home.html', context)
