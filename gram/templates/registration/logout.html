@@ -1,0 +1,22 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container pb-5">
+        <div class="row pt-5">
+            <div class="col-md-3 col-sm-3"></div>
+            <div class="col-md-xs-12 col-sm-6 col-md-6"  style="border: 1px solid rgba(121, 119, 119, 0.2);padding:50px;">
+                
+                <h3>You have been logged out</h3>
+                <div class="content-section">
+                    <small class="text-muted">
+                        <a href="{% url 'login' %}">Log In Again</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3"></div>
+    </div>
+
+{% endblock %}
