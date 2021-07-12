@@ -1,0 +1,31 @@
+{%extends 'base.html'%} 
+{% block content %}
+<div class="container">
+  <div class="row text-center">
+    {% if profiles%}
+      <h2>Found {{ profiles|length }} user with searched term '{{message}}'</h2>
+    {% else %}
+      <h2> Found 0 profiles for the search term {{message}}</h2>
+    {% endif %}
+  </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-mb-4 mt-3">
+        {% if profiles %}
+        {% for profile in profiles %}
+        <div class="card">          
+           <img src="{{profile.user.profile.profile_photo.url}}" style="width:200px">
+           <div class="media-body">
+           <h2 class="account-heading">{{ profile.user.username }}</h2>
+          <p class="text-secondary">{{ profile.user.email }}</p>
+        </div>
+        <span class="mr-5"> <strong>{{ profile.user.profile.followers.count }}</strong> followers</span>
+        <span class="mr-5"> <strong>{{ profile.user.profile.following.count }}</strong> following</span>
+        </div><br>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

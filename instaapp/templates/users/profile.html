@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+{{block.super}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <img class="rounded-circle account-img" src="{{user.profile.profile_photo.url}}" style="width:80px; height:80px;">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+        <span class="mr-5"><strong>{{ user.profile.followers.count }}</strong> followers</span>
+        <span class="mr-5"><strong>{{ user.profile.following.count }}</strong> following</span>
+        <div class="border-top pt-3">
+        <small class="text-muted">
+            <a href="{% url 'update' %}">Update Profile Details</a>
+        </small>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for image in images %}
+        <div class="col-md-4 mt-4">
+          <div class="card">
+            <a href="{% url 'image' image.id %}">
+                <img src="{{image.gallery_image.url}}" style="width:100%;height:56%;" class="img-responsive" alt="Image"></a><br><hr>
+                <p class="pl-2"><strong>Caption:</strong> {{image.image_caption}}</p>
+                <p class="pl-2"><strong>Posted on:</strong> {{image.pub_date}}</p><br><br>
+                <p class="pl-2"><strong>Comments:</strong></p>
+                {% for comment in comments %}
+                    {% if comment.image_id == image.id%}
+                    <p class="pl-2"><strong>{{comment.user}}:</strong>{{comment.comment}}</p>
+                    <p>{{comment.posted | timesince}}</p><hr>
+                    {% endif %}
+                {% endfor %}
+                <a href=" {% url 'comment' image_id=image.id %}"><i class="fa fa-comment pl-2"></i>Add a comment</a><br><br>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div><br><br><br><br><br><br>
+{% endblock %}

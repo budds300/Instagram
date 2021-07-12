@@ -1,0 +1,67 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%load cloudinary%}
+{%load bootstrap4%}
+{%block content %}
+{{block.super}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card-title text-secondary mt-2 mr-2 ml-2 ">Suggestions For You</div>
+            {% for user in users %}
+            <div class="col-md-2 mr-3 mt-1 mb-2">
+                <img class="rounded-circle" src="{{ user.profile.profile_photo.url }}" width="45px" height="45px">
+            </div>
+            <div class="col-md-6 mr-2 mt-2">
+                <span><a href="{% url 'user_profile' user.username  %}">{{user.username}}</a></span>
+            </div>
+            <div class="col-md-4"></div>
+            {% endfor %}
+            </div>   
+        <div class="col-md-7"> 
+        {% for image in images %}
+            <div class="card mb-4 border">
+                <div class="card-title">
+                <img src="{{image.user.profile_photo.url}}" class="rounded-circle border-bottom"
+                alt="" width="35" height="35">
+                {{image.user.user.username|title}}
+            </div>
+            <div class="card-body mb-4">
+                <a href="{% url 'image' image.id %}"><img src="{{image.gallery_image.url}}" style="width:100%;" class="card-img" alt="Image"></a>
+                    <br><br>
+                    <p><strong>Caption:</strong> {{image.image_caption}}</p>
+                    <p><strong>Posted:</strong> {{image.pub_date}}</p> 
+                    <div class="card-body">
+                        <i class="far fa-heart fa-2x"></i>
+                        <a  href="{% url 'comment' image_id=image.id%}" style="color:black"><i class="far fa-comment pl-3 fa-2x"></i></a>
+                        <i class="far fa-paper-plane pl-3 fa-2x "></i>
+                        <p class="card-text">{{image.image.caption}}</p>
+                    </div>
+                    <em><p><strong>Comments:</strong></p></em>
+                {% for comment in comments %}
+                    {% if comment.image_id == image.id%}
+                        <p><strong>{{comment.user}}:</strong> {{comment.comment}}</p>
+                        <p>{{comment.posted | timesince}}</p><hr>
+                    {% endif %}
+                {% endfor %}
+                <a href=" {% url 'comment' image_id=image.id %}"><i class="fa fa-comment fa-2x"></i>Add a comment</a><br><br>
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="col-md-3">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Upload Pic</legend>
+                        {{ form|crispy }}
+                </fieldset>
+                <div class="from-group">
+                    <button class="btn btn-outline-info" type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><br><br><br><br><br><br>
+{% endblock %}
