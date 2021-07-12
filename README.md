@@ -1,7 +1,10 @@
 
 # Gallery App
 This  project is a [instagram clone](https://git.heroku.com/tha-gram.git)website where users can  post their  images,like and follow other followers
- Heres the home page
+ Heres the
+ login page
+ ![login](screenshott.png)
+  home page
  ![home](screenshot2.png)
  On clicking profile
  ![image](screenshot3.png)
